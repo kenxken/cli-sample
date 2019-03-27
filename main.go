@@ -17,7 +17,7 @@ const (
 func main() {
 	app := cli.NewApp()
 
-	app.Name = "cli sample"
+	app.Name = "sample-cli"
 	app.Usage = "This app echo system status"
 	app.Version = "0.0.1"
 
@@ -35,7 +35,7 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "disk, d",
-			Usage: "Echo disk usage",
+			Usage: "Echo disk size",
 		},
 	}
 
