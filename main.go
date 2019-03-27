@@ -28,6 +28,9 @@ func main() {
 			fmt.Printf("Used : %.2f GB\n", float64(disk.Used)/float64(gB))
 			fmt.Printf("Free : %.2f GB\n", float64(disk.Free)/float64(gB))
 			fmt.Printf("Avail: %.2f GB\n", float64(disk.Available)/float64(gB))
+		} else if context.Bool("mem") {
+			total := MemStatus()
+			fmt.Printf("Total: %.2f GB\n", float64(total)/float64(gB))
 		}
 		return nil
 	}
@@ -36,6 +39,10 @@ func main() {
 		cli.BoolFlag{
 			Name:  "disk, d",
 			Usage: "Echo disk size",
+		},
+		cli.BoolFlag{
+			Name:  "mem, m",
+			Usage: "Echo memory size (darwin)",
 		},
 	}
 
