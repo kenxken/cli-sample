@@ -31,6 +31,11 @@ func main() {
 		} else if context.Bool("mem") {
 			total := MemStatus()
 			fmt.Printf("Total: %.2f GB\n", float64(total)/float64(gB))
+		} else if context.Bool("cpu") {
+			cpu, _ := CpuUsage()
+			fmt.Printf("User  : %f %%\n", float64(cpu.User)/float64(cpu.Total)*100)
+			fmt.Printf("System: %f %%\n", float64(cpu.System)/float64(cpu.Total)*100)
+			fmt.Printf("Idle  : %f %%\n", float64(cpu.Idle)/float64(cpu.Total)*100)
 		}
 		return nil
 	}
@@ -43,6 +48,10 @@ func main() {
 		cli.BoolFlag{
 			Name:  "mem, m",
 			Usage: "Echo memory size (darwin)",
+		},
+		cli.BoolFlag{
+			Name:  "cpu, c",
+			Usage: "Echo cpu usage (darwin)",
 		},
 	}
 

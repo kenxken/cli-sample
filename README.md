@@ -1,4 +1,6 @@
 # cli-sample
 
 - cli
-- echo disk size
+  - disk size
+  - memory size
+  - cpu usage

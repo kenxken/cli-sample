@@ -12,3 +12,6 @@
 *.out
 
 launch.json
+
+# bin
+sample-cli
