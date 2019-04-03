@@ -1,2 +1,3 @@
 laguage: go
 os: osx
+script: go test
