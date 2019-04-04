@@ -29,3 +29,9 @@ func CpuUsage() (*Cpu, error) {
 	cpu.Total = cpu.User + cpu.System + cpu.Idle + cpu.Nice
 	return &cpu, nil
 }
+
+func CpuShow(cpu Cpu) {
+	fmt.Printf("User  : %f %%\n", float64(cpu.User)/float64(cpu.Total)*100)
+	fmt.Printf("System: %f %%\n", float64(cpu.System)/float64(cpu.Total)*100)
+	fmt.Printf("Idle  : %f %%\n", float64(cpu.Idle)/float64(cpu.Total)*100)
+}

@@ -1,18 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/urfave/cli"
 )
 
-const (
-	b  = 1
-	kB = 1024 * b
-	mB = 1024 * kB
-	gB = 1024 * mB
-)
+type statusFunc func()
+
+func diskStatus() {
+	disk := DiskUsage("/")
+	DiskShow(disk)
+}
+
+func cpuStatus() {
+	cpu, _ := CpuUsage()
+	CpuShow(*cpu)
+}
+
+func memStatus() {
+	mem := MemStatus()
+	MemShow(mem)
+}
 
 func main() {
 	app := cli.NewApp()
@@ -22,21 +31,17 @@ func main() {
 	app.Version = "0.0.1"
 
 	app.Action = func(context *cli.Context) error {
+		var sf statusFunc
 		if context.Bool("disk") {
-			disk := DiskUsage("/")
-			fmt.Printf("All  : %.2f GB\n", float64(disk.All)/float64(gB))
-			fmt.Printf("Used : %.2f GB\n", float64(disk.Used)/float64(gB))
-			fmt.Printf("Free : %.2f GB\n", float64(disk.Free)/float64(gB))
-			fmt.Printf("Avail: %.2f GB\n", float64(disk.Available)/float64(gB))
+			sf = diskStatus
 		} else if context.Bool("mem") {
-			total := MemStatus()
-			fmt.Printf("Total: %.2f GB\n", float64(total)/float64(gB))
+			sf = memStatus
 		} else if context.Bool("cpu") {
-			cpu, _ := CpuUsage()
-			fmt.Printf("User  : %f %%\n", float64(cpu.User)/float64(cpu.Total)*100)
-			fmt.Printf("System: %f %%\n", float64(cpu.System)/float64(cpu.Total)*100)
-			fmt.Printf("Idle  : %f %%\n", float64(cpu.Idle)/float64(cpu.Total)*100)
+			sf = cpuStatus
+		} else {
+			return nil
 		}
+		sf()
 		return nil
 	}
 
